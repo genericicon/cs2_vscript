@@ -1,0 +1,5 @@
+projectile/
+core/
+vscripts/glock_test.lua
+vscripts/test.lua
+vscripts/utils.lua
