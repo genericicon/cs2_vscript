@@ -3,3 +3,8 @@ core/
 vscripts/glock_test.lua
 vscripts/test.lua
 vscripts/utils.lua
+vscripts/gameinit.lua
+vscripts/lib/player_manager.lua
+vscripts/PhysWater.lua
+vscripts/player_manager.lua
+.vscode/settings.json

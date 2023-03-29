@@ -126,27 +126,34 @@ function GetAllPlayers()
 end
 
 function SpawnRagdoll(player)
+    local throw = false
     local playerController = player:GetController()
     local pawn = playerController:GetPawn()
     local start = pawn:EyePosition()
     local forward = AnglesToVector(pawn:EyeAngles())
-
-    local trRag = {
-        startpos = start,
-        endpos = start + forward * 4096,
-    }
-    TraceLine(trRag)
-    local pos = trRag.pos -forward * 64
-    pos = pos + Vector(0,0,32)
-
+    local pos
+    if not throw then
+        local trRag = {
+            startpos = start,
+            endpos = start + forward * 4096,
+        }
+        TraceLine(trRag)
+       pos = trRag.pos -forward * 64
+        pos = pos + Vector(0,0,32)
+    else
+        pos = start + forward* 32
+    end
     local model = agents[RandomInt(1,#agents)]
 
 
     local rag = SpawnEntityFromTableSynchronous("prop_ragdoll",{
         model = model,
         origin = pos,
+        angles = pawn:EyeAngles()
     })
-    -- ScriptPrintMessageCenterAll(UniqueString("Spawned Ragdoll"))
+    if throw then
+        rag:ApplyAbsVelocityImpulse(forward*600)
+    end
     ScriptPrintMessageCenterAll(UniqueString(model))
 
 end
@@ -173,7 +180,6 @@ function ExpTrace(player,impulse,reverse)
         v:ApplyLocalAngularVelocityImpulse(Vector(RandomFloat(-360,360),RandomFloat(-360,360),RandomFloat(-360,360)))
         v:ApplyAbsVelocityImpulse(vec*600)
     end
-
     if not reverse then
         player:ApplyAbsVelocityImpulse(forward*impulse)
     else

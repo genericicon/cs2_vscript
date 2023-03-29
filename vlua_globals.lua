@@ -1,5 +1,307 @@
+---@diagnostic disable: lowercase-global, deprecated, undefined-doc-name, missing-return
 
- --- AngleDiff  Returns the number of degrees difference between two yaw angles 
+---@alias CS_GAME_EVENTS
+---| "\"player_death\"" 
+---| "\"other_death\""
+---| "\"player_hurt\""
+---| "\"item_purchase\""
+---| "\"bomb_beginplant\""
+---| "\"bomb_abortplant\""
+---| "\"bomb_planted\""
+---| "\"bomb_defused\""
+---| "\"bomb_exploded\""
+---| "\"bomb_dropped\""
+---| "\"bomb_pickup\""
+---| "\"defuser_dropped\""
+---| "\"defuser_pickup\""
+---| "\"announce_phase_end\""
+---| "\"cs_intermission\""
+---| "\"bomb_begindefuse\""
+---| "\"bomb_abortdefuse\""
+---| "\"hostage_follows\""
+---| "\"hostage_hurt\""
+---| "\"hostage_killed\""
+---| "\"hostage_recused\""
+---| "\"hostage_stops_following\""
+---| "\"hostage_rescued_all\""
+---| "\"hostage_call_for_help\""
+---| "\"vip_escaped\""
+---| "\"vip_killed\""
+---| "\"player_radio\""
+---| "\"bomb_beep\""
+---| "\"weapon_fire\""
+---| "\"weapon_fire_on_empty\""
+---| "\"grenade_thrown\""
+---| "\"weapon_outofammo\""
+---| "\"weapon_reload\""
+---| "\"weapon_zoom\""
+---| "\"silencer_detach\""
+---| "\"inspect_weapon\""
+---| "\"weapon_zoom_rifle\""
+---| "\"player_spawned\""
+---| "\"item_pickup\""
+---| "\"item_pickup_slerp\""
+---| "\"item_pickup_failed\""
+---| "\"item_remove\""
+---| "\"ammo_pickup\""
+---| "\"item_equip\""
+---| "\"enter_buyzone\""
+---| "\"exit_buyzone\""
+---| "\"buytime_ended\""
+---| "\"enter_bombzone\""
+---| "\"exit_bombzone\""
+---| "\"enter_rescue_zone\""
+---| "\"exit_rescue_zone\""
+---| "\"silencer_off\""
+---| "\"silencer_on\""
+---| "\"buymenu_open\""
+---| "\"buymenu_close\""
+---| "\"round_prestart\""
+---| "\"round_poststart\""
+---| "\"round_start\""
+---| "\"round_end\""
+---| "\"grenade_bounce\""
+---| "\"hegrenade_detonate\""
+---| "\"flashbang_detonate\""
+---| "\"smokegrenade_detonate\""
+---| "\"smokegrenade_expired\""
+---| "\"molotov_detonate\""
+---| "\"decoy_detonate\""
+---| "\"decoy_started\""
+---| "\"tagrenade_detonate\""
+---| "\"inferno_expire\""
+---| "\"inferno_extinguish\""
+---| "\"decoy_firing\""
+---| "\"bullet_impact\""
+---| "\"player_footstep\""
+---| "\"player_jump\""
+---| "\"player_blind\""
+---| "\"player_falldamage\""
+---| "\"door_moving\""
+---| "\"round_freeze_end\""
+---| "\"mb_input_lock_success\""
+---| "\"mb_input_lock_cancel\""
+---| "\"nav_blocked\""
+---| "\"nav_generate\""
+---| "\"player_stats_updated\""
+---| "\"achievement_info_loaded\""
+---| "\"spec_target_updated\""
+---| "\"hltv_changed_mode\""
+---| "\"cs_game_disconnected\""
+---| "\"cs_round_final_beep\""
+---| "\"cs_round_start_beep\""
+---| "\"cs_win_panel_round\""
+---| "\"cs_win_panel_match\""
+---| "\"cs_match_end_restart\""
+---| "\"cs_pre_restart\""
+---| "\"show_deathpanel\""
+---| "\"hide_deathpanel\""
+---| "\"player_avenged_teammate\""
+---| "\"achievement_earned\""
+---| "\"achievement_earned_local\""
+---| "\"match_end_conditions\""
+---| "\"round_mvp\""
+---| "\"player_decal\""
+---| "\"teamplay_round_start\""
+---| "\"show_survival_respawn_status\""
+---| "\"client_disconnect\""
+---| "\"gg_player_levelup\""
+---| "\"ggtr_player_levelup\""
+---| "\"ggprogressive_player_levelup\""
+---| "\"gg_killed_enemy\""
+---| "\"gg_final_weapon_achieved\""
+---| "\"gg_bonus_grenade_achieved\""
+---| "\"switch_team\""
+---| "\"gg_leader\""
+---| "\"gg_team_leader\""
+---| "\"gg_player_impending_upgrade\""
+---| "\"write_profile_data\""
+---| "\"trial_time_expired\""
+---| "\"update_matchmaking_stats\""
+---| "\"player_reset_vote\""
+---| "\"enable_restart_voting\""
+---| "\"sfuievent\""
+---| "\"start_vote\""
+---| "\"player_given_c4\""
+---| "\"gg_reset_round_start_sounds\""
+---| "\"tr_player_flashbanged\""
+---| "\"tr_mark_complete\""
+---| "\"tr_mark_best_time\""
+---| "\"tr_exit_hint_trigger\""
+---| "\"bot_takeover\""
+---| "\"tr_show_finish_msgbox\""
+---| "\"tr_show_exit_msgbox\""
+---| "\"jointeam_failed\""
+---| "\"teamchange_pending\""
+---| "\"material_default_complete\""
+---| "\"cs_prev_next_spectator\""
+---| "\"cs_handle_ime_event\""
+---| "\"nextlevel_changed\""
+---| "\"seasoncoin_levelup\""
+---| "\"tournament_reward\""
+---| "\"start_halftime\""
+---| "\"ammo_refill\""
+---| "\"parachute_pickup\""
+---| "\"parachute_deploy\""
+---| "\"dronegun_attack\""
+---| "\"drone_dispatched\""
+---| "\"loot_crate_visible\""
+---| "\"loot_create_opened\""
+---| "\"open_crate_instr\""
+---| "\"smoke_beacon_paradrop\""
+---| "\"survival_paradrop_spawn\""
+---| "\"survival_paradrop_break\""
+---| "\"drone_cargo_detached\""
+---| "\"drone_above_roof\""
+---| "\"choppers_incoming_warning\""
+---| "\"firstbombs_incoming_warning\""
+---| "\"dz_item_interaction\""
+---| "\"survival_teammate_respawn\""
+---| "\"survival_no_respawns_warning\""
+---| "\"survival_no_respawns_final\""
+---| "\"player_ping\""
+---| "\"player_ping_stop\""
+---| "\"player_sound\""
+---| "\"guardian_wave_restart\""
+---| "\"team_intro_start\""
+---| "\"team_intro_end\""
+
+
+
+---@alias CORE_GAMEEVENTS
+---| "\"server_spawn\""
+---| "\"server_pre_shutdown\""
+---| "\"server_shutdown\""
+---| "\"server_message\""
+---| "\"server_cvar\""
+---| "\"player_activate\""
+---| "\"player_connect_full\""
+---| "\"player_full_update\""
+---| "\"player_connect\""
+---| "\"player_disconnect\""
+---| "\"player_info\""
+---| "\"player_spawn\""
+---| "\"player_team\""
+---| "\"local_player_team\""
+---| "\"local_player_controller_team\""
+---| "\"player_changename\""
+---| "\"player_hurt\""
+---| "\"player_chat\""
+---| "\"local_player_pawn_changed\""
+---| "\"teamplay_broadcast_audio\""
+---| "\"finale_start\""
+---| "\"player_stats_updated\""
+---| "\"user_data_downloaded\""
+---| "\"ragdoll_dissolved\""
+---| "\"team_info\""
+---| "\"team_score\""
+---| "\"hltv_cameraman\""
+---| "\"hltv_chase\""
+---| "\"hltv_rank_camera\""
+---| "\"hltv_rank_entity\""
+---| "\"hltv_fixed\""
+---| "\"hltv_message\""
+---| "\"hltv_status\""
+---| "\"hltv_title\""
+---| "\"hltv_chat\""
+---| "\"hltv_versioninfo\""
+---| "\"hltv_replay\""
+---| "\"demo_start\""
+---| "\"demo_stop\""
+---| "\"demo_skip\""
+---| "\"map_shutdown\""
+---| "\"map_transition\""
+---| "\"hostname_changed\""
+---| "\"difficulty_changed\""
+---| "\"game_message\""
+---| "\"game_newmap\""
+---| "\"round_start\""
+---| "\"round_end\""
+---| "\"round_start_pre_entity\""
+---| "\"round_start_post_nav\""
+---| "\"round_freeze_end\""
+---| "\"teamplay_round_start\""
+---| "\"player_death\""
+---| "\"player_footstep\""
+---| "\"player_hintmessage\""
+---| "\"break_breakable\""
+---| "\"break_prop\""
+---| "\"entity_killed\""
+---| "\"door_close\""
+---| "\"vote_started\""
+---| "\"vote_failed\""
+---| "\"vote_passed\""
+---| "\"vote_changed\""
+---| "\"vote_cast_yes\""
+---| "\"vote_cast_no\""
+---| "\"achievement_event\""
+---| "\"achievement_earned\""
+---| "\"achievement_write_failed\""
+---| "\"bonus_updated\""
+---| "\"spec_target_updated\""
+---| "\"spec_mode_updated\""
+---| "\"entity_visible\""
+---| "\"gameinstructor_draw\""
+---| "\"gameinstructor_nodraw\""
+---| "\"flare_ignite_npc\""
+---| "\"helicopter_grenade_punt_miss\""
+---| "\"physgun_pickup\""
+---| "\"inventory_updated\""
+---| "\"cart_updated\""
+---| "\"store_pricesheet_updated\""
+---| "\"item_schema_initialized\""
+---| "\"drop_rate_modified\""
+---| "\"event_ticket_modified\""
+---| "\"gc_connected\""
+---| "\"instructor_start_lesson\""
+---| "\"instructor_close_lesson\""
+---| "\"instructor_server_hint_create\""
+---| "\"instructor_server_hint_stop\""
+---| "\"set_instructor_group_enabled\""
+---| "\"clientside_lesson_closed\""
+---| "\"dynamic_shadow_light_changed\""
+
+--** Gameevents that are identical to the oens in core_gameevents are not included
+---@alias CSGO_GAMEEVENTS
+---| "\"gameui_hidden\""
+---| "\"items_gifted\""
+---| "\"player_score\""
+---| "\"player_shoot\""
+---| "\"game_init\""
+---| "\"game_newmap\""
+---| "\"game_start\""
+---| "\"game_end\""
+---| "\"round_announce_match_point\""
+---| "\"round_announce_final\""
+---| "\"round_announce_last_round_half\""
+---| "\"round_announce_match_start\""
+---| "\"round_announce_warmup\""
+---| "\"round_end\""
+---| "\"round_end_upload_stats\""
+---| "\"round_officially_ended\""
+---| "\"round_time_warning\""
+---| "\"ugc_map_info_recieved\""
+---| "\"ugc_map_unsubscribed\""
+---| "\"ugc_map_download_error\""
+---| "\"ugc_file_download_finished\""
+---| "\"ugc_file_download_start\""
+---| "\"begin_new_match\""
+---| "\"dm_bonus_weapon_start\""
+---| "\"survival_announce_phase\""
+---| "\"break_breakable\""
+---| "\"broken_breakable\""
+---| "\"map_transition\""
+---| "\"read_game_titledata\""
+---| "\"write_game_titledata\""
+---| "\"reset_game_titledata\""
+---| "\"weaponhud_selection\""
+---| "\"vote_options\""
+---| "\"endmatch_mapvote_selecting_map\""
+---| "\"endmatch_cmm_start_reveal_items\""
+
+---@alias ALL_GAME_EVENTS CS_GAME_EVENTS | CSGO_GAME_EVENTS | CORE_GAMEEVENTS 
+
+--- AngleDiff  Returns the number of degrees difference between two yaw angles 
 ---@return float
 ---@param float_1 float
 ---@param float_2 float
@@ -286,15 +588,15 @@ function FireEntityIOInputVec( ehandle_1, string_2, Vector_3 ) end
 
  --- FireGameEvent  Fire a game event. 
 ---@return void
----@param string_1 string
+---@param gameEvent ALL_GAME_EVENTS
 ---@param handle_2 handle
-function FireGameEvent( string_1, handle_2 ) end
+function FireGameEvent( gameEvent, handle_2 ) end
 
  --- FireGameEventLocal  Fire a game event without broadcasting to the client. 
 ---@return void
----@param string_1 string
+---@param gameEvent ALL_GAME_EVENTS
 ---@param handle_2 handle
-function FireGameEventLocal( string_1, handle_2 ) end
+function FireGameEventLocal( gameEvent, handle_2 ) end
 
  --- FrameTime  Get the time spent on the server in the last frame 
 ---@return float
@@ -373,10 +675,10 @@ function LerpVectors( Vector_1, Vector_2, float_3 ) end
 
  --- ListenToGameEvent  Register as a listener for a game event from script. 
 ---@return int
----@param string_1 string
----@param handle_2 handle
+---@param gameEvent ALL_GAME_EVENTS
+---@param callback function
 ---@param handle_3 handle
-function ListenToGameEvent( string_1, handle_2, handle_3 ) end
+function ListenToGameEvent( gameEvent, callback, handle_3 ) end
 
  --- LoadKeyValues  Creates a table from the specified keyvalues text file 
 ---@return table
@@ -1696,11 +1998,11 @@ function CCustomGameEventManager:UnregisterListener( int_1 ) end
  --- CDebugOverlayScriptHelper:Axis  Draws an axis. Specify origin + orientation in world space. 
 ---@return void
 ---@param Vector_1 Vector
----@param <unknown>_2 <unknown>
+---@param Quaternion_2 <unknown>
 ---@param float_3 float
 ---@param bool_4 bool
 ---@param float_5 float
-function CDebugOverlayScriptHelper:Axis( Vector_1, <unknown>_2, float_3, bool_4, float_5 ) end
+function CDebugOverlayScriptHelper:Axis( Vector_1, Quaternion_2, float_3, bool_4, float_5 ) end
 
  --- CDebugOverlayScriptHelper:Box  Draws a world-space axis-aligned box. Specify bounds in world space. 
 ---@return void
@@ -1719,19 +2021,19 @@ function CDebugOverlayScriptHelper:Box( Vector_1, Vector_2, int_3, int_4, int_5,
 ---@param Vector_1 Vector
 ---@param Vector_2 Vector
 ---@param Vector_3 Vector
----@param <unknown>_4 <unknown>
+---@param Quaternion_4 Quaternion
 ---@param int_5 int
 ---@param int_6 int
 ---@param int_7 int
 ---@param int_8 int
 ---@param bool_9 bool
 ---@param float_10 float
-function CDebugOverlayScriptHelper:BoxAngles( Vector_1, Vector_2, Vector_3, <unknown>_4, int_5, int_6, int_7, int_8, bool_9, float_10 ) end
+function CDebugOverlayScriptHelper:BoxAngles( Vector_1, Vector_2, Vector_3,Quaternion_4, int_5, int_6, int_7, int_8, bool_9, float_10 ) end
 
  --- CDebugOverlayScriptHelper:Capsule  Draws a capsule. Specify base in world space. 
 ---@return void
 ---@param Vector_1 Vector
----@param <unknown>_2 <unknown>
+---@param Quaternion_2 Quaternion
 ---@param float_3 float
 ---@param float_4 float
 ---@param int_5 int
@@ -1740,12 +2042,12 @@ function CDebugOverlayScriptHelper:BoxAngles( Vector_1, Vector_2, Vector_3, <unk
 ---@param int_8 int
 ---@param bool_9 bool
 ---@param float_10 float
-function CDebugOverlayScriptHelper:Capsule( Vector_1, <unknown>_2, float_3, float_4, int_5, int_6, int_7, int_8, bool_9, float_10 ) end
+function CDebugOverlayScriptHelper:Capsule( Vector_1, Quaternion_2, float_3, float_4, int_5, int_6, int_7, int_8, bool_9, float_10 ) end
 
  --- CDebugOverlayScriptHelper:Circle  Draws a circle. Specify center in world space. 
 ---@return void
 ---@param Vector_1 Vector
----@param <unknown>_2 <unknown>
+---@param Quaternion_2 Quaternion
 ---@param float_3 float
 ---@param int_4 int
 ---@param int_5 int
@@ -1753,7 +2055,7 @@ function CDebugOverlayScriptHelper:Capsule( Vector_1, <unknown>_2, float_3, floa
 ---@param int_7 int
 ---@param bool_8 bool
 ---@param float_9 float
-function CDebugOverlayScriptHelper:Circle( Vector_1, <unknown>_2, float_3, int_4, int_5, int_6, int_7, bool_8, float_9 ) end
+function CDebugOverlayScriptHelper:Circle( Vector_1,Quaternion_2, float_3, int_4, int_5, int_6, int_7, bool_8, float_9 ) end
 
  --- CDebugOverlayScriptHelper:CircleScreenOriented  Draws a circle oriented to the screen. Specify center in world space. 
 ---@return void
@@ -1808,7 +2110,7 @@ function CDebugOverlayScriptHelper:Cross3D( Vector_1, float_2, int_3, int_4, int
  --- CDebugOverlayScriptHelper:Cross3DOriented  Draws an oriented cross. Specify origin in world space. 
 ---@return void
 ---@param Vector_1 Vector
----@param <unknown>_2 <unknown>
+---@param Quaternion_2
 ---@param float_3 float
 ---@param int_4 int
 ---@param int_5 int
@@ -1816,7 +2118,7 @@ function CDebugOverlayScriptHelper:Cross3D( Vector_1, float_2, int_3, int_4, int
 ---@param int_7 int
 ---@param bool_8 bool
 ---@param float_9 float
-function CDebugOverlayScriptHelper:Cross3DOriented( Vector_1, <unknown>_2, float_3, int_4, int_5, int_6, int_7, bool_8, float_9 ) end
+function CDebugOverlayScriptHelper:Cross3DOriented( Vector_1, Quaternion_2, float_3, int_4, int_5, int_6, int_7, bool_8, float_9 ) end
 
  --- CDebugOverlayScriptHelper:DrawTickMarkedLine  Draws a dashed line. Specify endpoints in world space. 
 ---@return void
@@ -1974,13 +2276,13 @@ function CDebugOverlayScriptHelper:Sphere( Vector_1, float_2, int_3, int_4, int_
 ---@param Vector_2 Vector
 ---@param Vector_3 Vector
 ---@param Vector_4 Vector
----@param <unknown>_5 <unknown>
+---@param Quaternion_5 Quaternion_5
 ---@param int_6 int
 ---@param int_7 int
 ---@param int_8 int
 ---@param int_9 int
 ---@param float_10 float
-function CDebugOverlayScriptHelper:SweptBox( Vector_1, Vector_2, Vector_3, Vector_4, <unknown>_5, int_6, int_7, int_8, int_9, float_10 ) end
+function CDebugOverlayScriptHelper:SweptBox( Vector_1, Vector_2, Vector_3, Vector_4, Quaternion_5, int_6, int_7, int_8, int_9, float_10 ) end
 
  --- CDebugOverlayScriptHelper:Text  Draws 2D text. Specify origin in world space. 
 ---@return void
@@ -2025,7 +2327,7 @@ function CDebugOverlayScriptHelper:Triangle( Vector_1, Vector_2, Vector_3, int_4
  --- CDebugOverlayScriptHelper:VectorText3D  Draws 3D text. Specify origin + orientation in world space. 
 ---@return void
 ---@param Vector_1 Vector
----@param <unknown>_2 <unknown>
+---@param Quaternion_2 Quaternion
 ---@param string_3 string
 ---@param int_4 int
 ---@param int_5 int
@@ -2033,7 +2335,7 @@ function CDebugOverlayScriptHelper:Triangle( Vector_1, Vector_2, Vector_3, int_4
 ---@param int_7 int
 ---@param bool_8 bool
 ---@param float_9 float
-function CDebugOverlayScriptHelper:VectorText3D( Vector_1, <unknown>_2, string_3, int_4, int_5, int_6, int_7, bool_8, float_9 ) end
+function CDebugOverlayScriptHelper:VectorText3D( Vector_1, Quaternion_2, string_3, int_4, int_5, int_6, int_7, bool_8, float_9 ) end
 
  --- CDebugOverlayScriptHelper:VertArrow  Draws a vertical arrow. Specify endpoints in world space. 
 ---@return void
